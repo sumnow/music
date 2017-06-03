@@ -1,0 +1,45 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+a {
+  color: #00B7FF;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
+}
+.content header{
+  height: 28vh;
+  border: 1px solid #fff;
+}
+
+.lr{
+  display: flex;
+  height: 70vh;
+  justify-content: space-between;
+}
+
+.left{
+  flex: 0 0 29%;
+  border:1px solid #fff;
+}
+.right{
+  flex: 0 0 69%;
+  border: 1px solid #fff;
+}
+.selected{
+  color:green;
+}
