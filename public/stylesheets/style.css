@@ -7,7 +7,9 @@ body {
 a {
   color: #00B7FF;
 }
-
+ul{
+  list-style: none;
+}
 *{
   margin: 0;
   padding: 0;
@@ -18,28 +20,41 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100vw;
   height: 100vh;
 }
 .content header{
-  height: 28vh;
+  height: 30vh;
   border: 1px solid #fff;
 }
 
-.lr{
-  display: flex;
-  height: 70vh;
-  justify-content: space-between;
-}
-
-.left{
-  flex: 0 0 29%;
-  border:1px solid #fff;
+.right{
+  flex: 1;
+  /*height: 70vh;*/
 }
 .right{
-  flex: 0 0 69%;
-  border: 1px solid #fff;
+   /*box-reflect: above;*/
+ }
+.list-wrap{
+  overflow: auto;
+  height: 21vh;
 }
+
+h3 {
+  height: 8vh;
+  overflow: hidden;
+}
+
+#list{
+}
+
+#box {
+  /*width:100%;*/
+}
+
+
 .selected{
   color:green;
+}
+.typeul {
+  display: flex;
 }

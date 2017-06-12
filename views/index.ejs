@@ -1,26 +1,35 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"
+  >
   <head>
     <title><%= title %></title>
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <div class="content">
       <header>
-        <h1><%= title %></h1>
-        <p>Volume <input id="volume" type="range" min="0" max="100" value="60"/></p>
-      </header>
-      <div class="lr">
-        <div class="left">
+        <h3>
+          <span><%= title %></span>
+          <span>Volume <input id="volume" type="range" min="0" max="100" value="60"/></span>
+          <button type="button" name="button" id="stopbtn">Stop</button>
+          <ul class="typeul" id="type">
+            <li data-val = "bar" class="selected">bar</li>
+            <li data-val = "dot">dot</li>
+            <li data-val = "line">line</li>
+          </ul>
+        </h3>
+        <div class="list-wrap">
           <ul id="list">
             <% music.forEach((name) =>{ %>
               <li title='<%= name %>'><%= name  %></li>
-            <% })  %>
-          </ul>
-        </div>
-        <div class="right" id="box">
+              <% })  %>
+            </ul>
+          </div>
+      </header>
+      <div class="right" id="box">
 
-        </div>
       </div>
     </div>
     <script type="text/javascript" src="/javascripts/index.js">
