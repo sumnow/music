@@ -69,7 +69,15 @@ function newDots() {
     Dots[i] = {x:random(0, width),y:random(0,height),c:'rgba('+random(0,255)+','+random(0,255)+','+random(0,255)+',0)',speed:random(0.1,2)}
   }
 }
-
+const randomColor = () => {
+  let es = '#'
+  for(let i=0; i<6; i++){
+    const arr = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'];
+    const sue = random(0,15);
+    es = es + arr[sue];
+  }
+  return es;
+}
 function resize() {
   height = box.clientHeight;
   width = box.clientWidth;
@@ -89,21 +97,18 @@ function draw (arr) {
   const capH = cw;
 
   let line = ctx.createLinearGradient(0, 0, 0, height);
+  let rpi = Math.PI*2 / size;
   // 255/3 = 85
-  const rgbR = 255;
-  line.addColorStop(0, 'rgb('+ rgbR +','+ random(0,85) +','+ random(0,85) +')');
-  line.addColorStop(0.5, 'rgb('+ rgbR +','+ random(85,170) +','+ random(85,170) +')');
-  line.addColorStop(1, 'rgb('+ rgbR +','+ random(170,255) +','+ random(170,255) +')');
   ctx.fillStyle = line;
   for(var i = 0; i< size; i++) {
     let h = arr[i] / (size * 2.2) * height;
     switch($('#type .selected')[0].getAttribute('data-val')){
       case 'bar':
-        ctx.fillRect(w * i, height - h, w * 0.6, h);
         let msd = ctx.createRadialGradient(w * (i + 0.5), height-(arrcap[i] + capH), 0, w * i, height - (arrcap[i] + capH), h);
-        msd.addColorStop(0,'#fff');
-        msd.addColorStop(1,'#ccc');
+        msd.addColorStop(0,randomColor());
+        msd.addColorStop(1,randomColor());
         ctx.fillStyle = msd;
+        ctx.fillRect(w * i, height - h, w * 0.6, h);
         ctx.fillRect(w * i, height - (arrcap[i] + capH), cw, capH );
         arrcap[i] --;
         if(arrcap[i] < 0 ){
@@ -116,6 +121,7 @@ function draw (arr) {
       case 'dot':
         let dotcache = Dots[i];
         let r = arr[i] / 256 * 50;
+
         var radius = ctx.createRadialGradient(Dots[i].x, Dots[i].y, 0, Dots[i].x, Dots[i].y, r);
         radius.addColorStop(0, '#fff');
         radius.addColorStop(1, Dots[i].c);
@@ -137,7 +143,7 @@ function draw (arr) {
         }
         if(i > 0 && i < size - 1){
           ctx.lineTo(w * i, height - arr[i+1] / (size * 2) * height);
-          ctx.strokeStyle = "#fff"
+          ctx.strokeStyle = randomColor();
           ctx.stroke();
           // ctx.fill()
         }
@@ -147,6 +153,31 @@ function draw (arr) {
           ctx.fill()
           ctx.closePath();
         }
+        break;
+      case 'circle':
+        ctx.beginPath();
+        ctx.arc(width/2, height/2, arr[i], i*rpi, (i+1)*rpi, false);
+        ctx.stroke();
+        ctx.strokeStyle = randomColor();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(width/2, height/2, arr[i]/2, i*rpi, (i+1)*rpi, false);
+        ctx.stroke();
+        ctx.strokeStyle = randomColor();
+        ctx.closePath();
+        break;
+
+      case 'cir':
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.arc(width/2, height/2, i * 2 , 0, arr[i] * rpi/2, false);
+        ctx.strokeStyle = 'red';
+        ctx.translate(width/2, height/2);
+        ctx.rotate(rpi);
+        ctx.translate(-width/2, -height/2)
+        ctx.stroke();
+        ctx.closePath();
         break;
     }
   }
