@@ -51,6 +51,8 @@ let source = null ;
 
 let count = 0;
 
+let mscount = 0;
+
 const box = $('#box')[0];
 let height,width;
 const canvas = document.createElement('canvas');
@@ -169,15 +171,28 @@ function draw (arr) {
         break;
 
       case 'cir':
+        ctx.save();
         ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.arc(width/2, height/2, i * 2 , 0, arr[i] * rpi/2, false);
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = randomColor();
         ctx.translate(width/2, height/2);
-        ctx.rotate(rpi);
-        ctx.translate(-width/2, -height/2)
+        ctx.rotate(rpi * mscount);
+        ctx.translate(-width/2, -height/2);
+        // ctx.rotate(Math.PI * 2/100);
         ctx.stroke();
         ctx.closePath();
+        ctx.restore();
+        break;
+
+      case 'cirbar':
+        ctx.save()
+        256
+        ctx.translate(width/2, height/2);
+        ctx.rotate(rpi * i);
+        ctx.fillStyle = randomColor();
+        ctx.fillRect(- 2, - height / 2, 4, arr[i]/ (size * 4) * height / 2);
+        ctx.restore()
         break;
     }
   }
@@ -214,6 +229,7 @@ function visualizer () {
 
   function v(){
     analyser.getByteFrequencyData(arr);
+    mscount = mscount + 0.05;
     draw(arr);
     requestAnimationFrame(v);
   }
