@@ -68,7 +68,7 @@ const random = (m, n) => {
 }
 function newDots() {
   for(let i = 0; i < size; i ++){
-    Dots[i] = {x:random(0, width),y:random(0,height),c:'rgba('+random(0,255)+','+random(0,255)+','+random(0,255)+',0)',speed:random(0.1,2)}
+    Dots[i] = {x:random(0, width),y:random(0,height),cc: randomColor() ,c:'rgba('+random(0,255)+','+random(0,255)+','+random(0,255)+',0)',speed:random(0.1,2)}
   }
 }
 const randomColor = () => {
@@ -106,10 +106,10 @@ function draw (arr) {
     let h = arr[i] / (size * 2.2) * height;
     switch($('#type .selected')[0].getAttribute('data-val')){
       case 'bar':
-        let msd = ctx.createRadialGradient(w * (i + 0.5), height-(arrcap[i] + capH), 0, w * i, height - (arrcap[i] + capH), h);
-        msd.addColorStop(0,randomColor());
-        msd.addColorStop(1,randomColor());
-        ctx.fillStyle = msd;
+        // let msd = ctx.createRadialGradient(w * (i + 0.5), height-(arrcap[i] + capH), 0, w * i, height - (arrcap[i] + capH), h);
+        // msd.addColorStop(0, Dots[i].c);
+        // msd.addColorStop(1,'#fff');
+        ctx.fillStyle = Dots[i].cc;
         ctx.fillRect(w * i, height - h, w * 0.6, h);
         ctx.fillRect(w * i, height - (arrcap[i] + capH), cw, capH );
         arrcap[i] --;
@@ -124,7 +124,7 @@ function draw (arr) {
         let dotcache = Dots[i];
         let r = arr[i] / 256 * 50;
 
-        var radius = ctx.createRadialGradient(Dots[i].x, Dots[i].y, 0, Dots[i].x, Dots[i].y, r);
+        const radius = ctx.createRadialGradient(Dots[i].x, Dots[i].y, 0, Dots[i].x, Dots[i].y, r);
         radius.addColorStop(0, '#fff');
         radius.addColorStop(1, Dots[i].c);
         ctx.fillStyle = radius;
@@ -145,7 +145,7 @@ function draw (arr) {
         }
         if(i > 0 && i < size - 1){
           ctx.lineTo(w * i, height - arr[i+1] / (size * 2) * height);
-          ctx.strokeStyle = randomColor();
+          ctx.strokeStyle =  Dots[i].cc;
           ctx.stroke();
           // ctx.fill()
         }
@@ -158,16 +158,17 @@ function draw (arr) {
         break;
       case 'circle':
         ctx.beginPath();
+        ctx.moveTo(width/2, height/2);
         ctx.arc(width/2, height/2, arr[i], i*rpi, (i+1)*rpi, false);
-        ctx.stroke();
-        ctx.strokeStyle = randomColor();
+        ctx.fill();
+        ctx.fillStyle = Dots[i].cc;
         ctx.closePath();
 
-        ctx.beginPath();
-        ctx.arc(width/2, height/2, arr[i]/2, i*rpi, (i+1)*rpi, false);
-        ctx.stroke();
-        ctx.strokeStyle = randomColor();
-        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.arc(width/2, height/2, arr[i]/2, i*rpi, (i+1)*rpi, false);
+        // ctx.stroke();
+        // ctx.strokeStyle = randomColor();
+        // ctx.closePath();
         break;
 
       case 'cir':
@@ -175,7 +176,7 @@ function draw (arr) {
         ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.arc(width/2, height/2, i * 2 , 0, arr[i] * rpi/2, false);
-        ctx.strokeStyle = randomColor();
+        ctx.strokeStyle = Dots[i].cc;
         ctx.translate(width/2, height/2);
         ctx.rotate(rpi * mscount);
         ctx.translate(-width/2, -height/2);
@@ -186,13 +187,12 @@ function draw (arr) {
         break;
 
       case 'cirbar':
-        ctx.save()
-        256
+        // ctx.save()
         ctx.translate(width/2, height/2);
         ctx.rotate(rpi * i);
-        ctx.fillStyle = randomColor();
+        ctx.fillStyle = Dots[i].cc;
         ctx.fillRect(- 2, - height / 2, 4, arr[i]/ (size * 4) * height / 2);
-        ctx.restore()
+        // ctx.restore()
         break;
     }
   }
